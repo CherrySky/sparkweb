@@ -1,9 +1,9 @@
-<#import "masterTemplate.ftl" as layout />
+<#import "../masterTemplate.ftl" as layout />
 
 <@layout.masterTemplate title="Receipt book">
     <#if data??>
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-15">
             <table class="table">
                 <thead>
                     <tr>
@@ -24,7 +24,7 @@
                 <tbody>
                     <#list data as receipt>
                         <tr>
-                            <td>${receipt.getId()}</td>
+                            <td><a href="/receipt/${receipt.getId()}" class="btn btn-xs btn-info">Edit</a<</td>
                             <td>${receipt.getProductName()}</td>
                             <td>${receipt.getCurrency()}</td>
                             <td>${receipt.getPrice()}</td>

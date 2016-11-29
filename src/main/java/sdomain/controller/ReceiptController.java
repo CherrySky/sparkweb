@@ -21,7 +21,24 @@ public class ReceiptController {
         dao = new ReceiptDao(dataSource);
         mainPage();
         search();
+        edit();
 
+    }
+
+    private void edit() {
+        TemplateViewRoute route = (req, res) -> {
+            String id = req.params(":id");
+            System.out.println("ID: " + id);
+            Receipt receipt = dao.getByID(id);
+            Map<String, Object> model = new HashMap<>();
+            model.put("data", receipt);
+
+            System.out.println();
+
+            return new ModelAndView(model, "receipt/edit.ftl");
+        };
+
+        get("/receipt/:id", route, new FreeMarkerEngine());
     }
 
     private void search() {
@@ -33,7 +50,7 @@ public class ReceiptController {
             Map<String, Object> model = new HashMap<>();
             model.put("data", receipts);
 
-            return new ModelAndView(model, "receipt.ftl");
+            return new ModelAndView(model, "receipt/index.ftl");
         };
 
         post("/searchReceipt", route, new FreeMarkerEngine());
@@ -45,11 +62,13 @@ public class ReceiptController {
             Map<String, Object> model = new HashMap<>();
             model.put("data", receipts);
 
-            return new ModelAndView(model, "receipt.ftl");
+            return new ModelAndView(model, "receipt/index.ftl");
         };
 
         get("/", route, new FreeMarkerEngine());
         get("/receipt", route, new FreeMarkerEngine());
+
+
     }
 
 }

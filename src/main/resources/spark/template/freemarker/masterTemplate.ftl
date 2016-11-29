@@ -5,8 +5,8 @@
     <html xmlns="http://www.w3.org/1999/xhtml">
         <head>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></meta>
-            <link href="css/bootstrap.min.css" rel="stylesheet">
-            <link href="css/starter-template.css" rel="stylesheet">
+            <link href="/css/bootstrap.min.css" rel="stylesheet">
+            <link href="/css/starter-template.css" rel="stylesheet">
             <title>${title}</title>
         </head>
         <body>
@@ -50,7 +50,7 @@
                 ================================================== -->
                 <!-- Placed at the end of the document so the pages load faster -->
                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-                <script src="js/bootstrap.min.js"></script>
+                <script src="/js/bootstrap.min.js"></script>
         </body>
     </html>
 </#macro>

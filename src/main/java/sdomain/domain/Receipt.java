@@ -113,4 +113,22 @@ public class Receipt {
     public void setProductName(String productName) {
         this.productName = productName;
     }
+
+    @Override
+    public String toString() {
+        return "Receipt{" +
+                "id=" + id +
+                ", productName='" + productName + '\'' +
+                ", currency='" + currency + '\'' +
+                ", price=" + price +
+                ", purchaseDate=" + purchaseDate +
+                ", warrantyDate=" + warrantyDate +
+                ", category='" + category + '\'' +
+                ", shopName='" + shopName + '\'' +
+                ", shopInvoice='" + shopInvoice + '\'' +
+                ", shopAddress='" + shopAddress + '\'' +
+                ", shopPhone='" + shopPhone + '\'' +
+                ", remarks='" + remarks + '\'' +
+                '}';
+    }
 }

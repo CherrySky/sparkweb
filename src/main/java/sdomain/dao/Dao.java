@@ -6,6 +6,6 @@ public interface Dao<T> {
 
     List<T> getAll();
 
-    T getByID(int id);
+    T getByID(String id);
 
 }

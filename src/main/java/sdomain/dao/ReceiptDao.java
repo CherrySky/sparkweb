@@ -1,12 +1,17 @@
 package sdomain.dao;
 
+import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import sdomain.domain.Receipt;
 
 import javax.sql.DataSource;
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 public class ReceiptDao implements Dao {
@@ -20,16 +25,18 @@ public class ReceiptDao implements Dao {
     @Override
     public List getAll() {
         String sql = "SELECT * FROM Receipt";
-        List<Receipt> receipts = template.query(sql, dataMapper);
+        List<Receipt> receipts = template.query(sql, new ReceiptMapper());
         return receipts;
     }
 
     @Override
-    public Object getByID(int id) {
-        return null;
+    public Receipt getByID(String id) {
+        String sql = "SELECT * FROM Receipt where id = :id";
+        SqlParameterSource namedParameters = new MapSqlParameterSource("id", id);
+        return template.queryForObject(sql, namedParameters, new ReceiptMapper());
     }
 
-    private RowMapper<Receipt> dataMapper = (rs, i) -> {
+    private ResultSetExtractor<Receipt> resultSetExtractor = (rs) -> {
         Receipt receipt = new Receipt();
         receipt.setId(rs.getInt("id"));
         receipt.setProductName(rs.getString("productName"));
@@ -48,11 +55,11 @@ public class ReceiptDao implements Dao {
 
     public List search(String searchText) {
         String sql = "SELECT * FROM Receipt where productName like '%" + searchText + "%'";
-        List<Receipt> receipts = template.query(sql, dataMapper);
+        List<Receipt> receipts = template.query(sql, new ReceiptMapper());
 
         if (receipts.size() == 0) {
             sql = "SELECT * FROM Receipt where category like '%" + searchText + "%'";
-            receipts = template.query(sql, dataMapper);
+            receipts = template.query(sql, new ReceiptMapper());
         }
         return receipts;
     }
