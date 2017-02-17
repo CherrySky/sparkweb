@@ -1,6 +1,7 @@
 <#import "../masterTemplate.ftl" as layout />
 
-<@layout.masterTemplate title="Receipt book">
+<@layout.masterTemplate title="Receipt">
+<div class="pull-right"><a href="createReceipt" class="btn btn-success">Create Receipt</a></div>
     <#if data??>
     <div class="row">
         <div class="col-md-15">

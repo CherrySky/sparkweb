@@ -1,6 +1,6 @@
 drop table receipt if exists;
 create table receipt (
-  id int primary key,
+  id int identity primary key,
   productName varchar(50) not null,
   currency varchar(3) not null,
   price numeric not null,

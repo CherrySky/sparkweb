@@ -8,4 +8,10 @@ public interface Dao<T> {
 
     T getByID(String id);
 
+    void update(T receipt);
+
+    void delete(String id);
+
+    void create(T receipt);
+
 }

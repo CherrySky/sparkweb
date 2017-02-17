@@ -7,6 +7,7 @@ import spark.TemplateViewRoute;
 import spark.template.freemarker.FreeMarkerEngine;
 
 import javax.sql.DataSource;
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,14 +20,33 @@ public class ReceiptController {
 
     public ReceiptController(DataSource dataSource) {
         dao = new ReceiptDao(dataSource);
-        mainPage();
-        search();
-        edit();
-
+        init();
     }
 
-    private void edit() {
-        TemplateViewRoute route = (req, res) -> {
+    private void init() {
+        TemplateViewRoute mainRoute = (req, res) -> {
+            List<Receipt> receipts = dao.getAll();
+            Map<String, Object> model = new HashMap<>();
+            model.put("data", receipts);
+
+            return new ModelAndView(model, "receipt/index.ftl");
+        };
+
+        get("/", mainRoute, new FreeMarkerEngine());
+        get("/receipt", mainRoute, new FreeMarkerEngine());
+
+        post("/searchReceipt", (req, res) -> {
+            String searchText = req.body().split("=")[1];
+            System.out.println("search: " + searchText);
+
+            List<Receipt> receipts = dao.search(searchText);
+            Map<String, Object> model = new HashMap<>();
+            model.put("data", receipts);
+
+            return new ModelAndView(model, "receipt/index.ftl");
+        }, new FreeMarkerEngine());
+
+        get("/receipt/:id", (req, res) -> {
             String id = req.params(":id");
             System.out.println("ID: " + id);
             Receipt receipt = dao.getByID(id);
@@ -36,37 +56,23 @@ public class ReceiptController {
             System.out.println();
 
             return new ModelAndView(model, "receipt/edit.ftl");
-        };
+        }, new FreeMarkerEngine());
 
-        get("/receipt/:id", route, new FreeMarkerEngine());
-    }
-
-    private void search() {
-        TemplateViewRoute route = (req, res) -> {
-            String searchText = req.body().split("=")[1];
-            System.out.println("search: " + searchText);
-
-            List<Receipt> receipts = dao.search(searchText);
+        get("/createReceipt", (req, res) -> {
+            System.out.println("in create");
             Map<String, Object> model = new HashMap<>();
-            model.put("data", receipts);
+            Receipt receipt = new Receipt();
+            //receipt.setProductName("iphone7");
+            receipt.setPurchaseDate(new Date(2016,10,12));
+            model.put("data", receipt);
+            return new ModelAndView(model, "receipt/create.ftl");
+        }, new FreeMarkerEngine());
 
-            return new ModelAndView(model, "receipt/index.ftl");
-        };
-
-        post("/searchReceipt", route, new FreeMarkerEngine());
-    }
-
-    private void mainPage() {
-        TemplateViewRoute route = (req, res) -> {
-            List<Receipt> receipts = dao.getAll();
+        post("updateReceipt", (req, res) -> {
             Map<String, Object> model = new HashMap<>();
-            model.put("data", receipts);
 
-            return new ModelAndView(model, "receipt/index.ftl");
-        };
-
-        get("/", route, new FreeMarkerEngine());
-        get("/receipt", route, new FreeMarkerEngine());
+            return new ModelAndView(model, "receipt/create.ftl");
+        }, new FreeMarkerEngine());
 
 
     }

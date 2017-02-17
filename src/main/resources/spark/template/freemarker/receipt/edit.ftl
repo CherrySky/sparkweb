@@ -1,6 +1,6 @@
 <#import "../masterTemplate.ftl" as layout />
 
-<@layout.masterTemplate title="Receipt book">
+<@layout.masterTemplate title="Receipt">
 <form>
   <div class="form-group">
     <label for="exampleInputEmail1">Email address</label>
