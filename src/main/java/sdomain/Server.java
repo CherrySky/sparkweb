@@ -1,6 +1,7 @@
 package sdomain;
 
 import sdomain.controller.ReceiptController;
+import sdomain.controller.WolfController;
 import sdomain.dao.DatabaseConfig;
 
 import javax.sql.DataSource;
@@ -13,11 +14,16 @@ public class Server {
 
         staticFileLocation("/public");
 
-        DataSource dataSource = DatabaseConfig.init("sql/create-data.sql");
+        //DataSource dataSource = DatabaseConfig.init("sql/create-data.sql");
 
         //Spark.externalStaticFileLocation("/sdomain/src/main/resources/public");
 
-        new ReceiptController(dataSource);
+        //new ReceiptController(dataSource);
+
+        new WolfController();
+
+        System.out.println("server started...");
+
     }
 
 }

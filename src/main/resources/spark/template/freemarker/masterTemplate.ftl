@@ -23,16 +23,17 @@
                     </div>
                     <div id="navbar" class="collapse navbar-collapse">
                       <ul class="nav navbar-nav">
-                        <li class="active"><a href="/">Receipt</a></li>
+                        <li class="active"><a href="/">Wolfs</a></li>
+                        <!--<li class="active"><a href="/">Receipt</a></li>
                         <li><a href="#about">About</a></li>
-                        <li><a href="#contact">Contact</a></li>
+                        <li><a href="#contact">Contact</a></li>-->
                       </ul>
-                      <form class="navbar-form navbar-right" action="searchReceipt" method="post">
+                      <!--<form class="navbar-form navbar-right" action="searchReceipt" method="post">
                           <div class="form-group">
                             <input type="text" name="search" placeholder="Search" class="form-control">
                           </div>
                           <button type="submit" class="btn btn-success">Search</button>
-                        </form>
+                        </form>-->
                     </div><!--/.nav-collapse -->
                   </div>
                 </nav>
