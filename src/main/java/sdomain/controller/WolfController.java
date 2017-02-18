@@ -35,15 +35,18 @@ public class WolfController {
             CountDownLatch latch = new CountDownLatch(Wolfs.values().length);
 
             for (Wolfs wolfs : Wolfs.values()) {
-                executorService.execute(() -> {
-                    try {
-                        WolfUser wolfUser = wolfStatWebService.getWolfUserStatus(wolfs);
-                        wolfUsers.add(wolfUser);
-                        latch.countDown();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                });
+                if (wolfs.isEnable()) {
+                    executorService.execute(() -> {
+                        try {
+                            WolfUser wolfUser = wolfStatWebService.getWolfUserStatus(wolfs);
+                            wolfUsers.add(wolfUser);
+                            latch.countDown();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    });
+                }
+
             }
 
             try {

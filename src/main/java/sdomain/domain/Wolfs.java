@@ -5,24 +5,30 @@ package sdomain.domain;
  */
 public enum Wolfs {
 
-    DON("327901078"),
-    FongE("362730774"),
-    Kimberly("318250167"),
-    Carrie("213090708"),
-    Bowie("195363026"),
-    Mia("276080654"),
-    Mary("348843344"),
-    Joey("255650454"),
+    DON("327901078", true),
+    FongE("362730774", true),
+    Kimberly("318250167", true),
+    Carrie("213090708", true),
+    Bowie("195363026", true),
+    Mia("276080654", true),
+    Mary("348843344", true),
+    Joey("255650454", true),
     ;
+
+    public boolean isEnable() {
+        return enable;
+    }
 
     public String getUserId() {
         return userId;
     }
 
     String userId;
+    boolean enable;
 
-    Wolfs(String userId) {
+    Wolfs(String userId, boolean enable) {
         this.userId = userId;
+        this.enable = enable;
     }
 
     public static String getById(String id) {
