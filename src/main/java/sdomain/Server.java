@@ -1,10 +1,7 @@
 package sdomain;
 
-import sdomain.controller.ReceiptController;
+import sdomain.controller.TelegramBotController;
 import sdomain.controller.WolfController;
-import sdomain.dao.DatabaseConfig;
-
-import javax.sql.DataSource;
 
 import static spark.Spark.*;
 
@@ -21,6 +18,7 @@ public class Server {
         //new ReceiptController(dataSource);
 
         new WolfController();
+        new TelegramBotController();
 
         System.out.println("server started...");
 

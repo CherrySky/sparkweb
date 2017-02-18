@@ -8,14 +8,11 @@ public enum Wolfs {
     DON("327901078"),
     FongE("362730774"),
     Kimberly("318250167"),
-    //Carrie("209377471"),
+    Carrie("213090708"),
     Bowie("195363026"),
     Mia("276080654"),
     Mary("348843344"),
     Joey("255650454"),
-
-
-
     ;
 
     public String getUserId() {
@@ -36,7 +33,7 @@ public enum Wolfs {
             };
         }
         System.out.println("id " + id + " not found in Wolfs.java enum");
-        return "Unknown: " + id;
+        return null;
     }
 
     public static void main(String[] args) {

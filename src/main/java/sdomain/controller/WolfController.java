@@ -1,7 +1,5 @@
 package sdomain.controller;
 
-import sdomain.dao.ReceiptDao;
-import sdomain.domain.Receipt;
 import sdomain.domain.WolfUser;
 import sdomain.domain.Wolfs;
 import sdomain.services.WolfStatWebService;
@@ -9,19 +7,21 @@ import spark.ModelAndView;
 import spark.TemplateViewRoute;
 import spark.template.freemarker.FreeMarkerEngine;
 
-import javax.sql.DataSource;
 import java.io.IOException;
-import java.io.InterruptedIOException;
-import java.sql.Date;
-import java.util.*;
-import java.util.concurrent.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import static spark.Spark.get;
-import static spark.Spark.post;
 
 public class WolfController {
 
-    private ExecutorService executorService = Executors.newFixedThreadPool(5);
+    private ExecutorService executorService = Executors.newFixedThreadPool(8);
     private WolfStatWebService wolfStatWebService = new WolfStatWebService();
 
 

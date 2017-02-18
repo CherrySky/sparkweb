@@ -34,12 +34,12 @@ public class WolfStatWebService {
     private final static String end = "\\u003c/b";
 
     public WolfUser getWolfUserStatus(Wolfs wolfs) throws IOException {
-        System.out.println("getWolfStatus: " + wolfs);
+        //System.out.println("getWolfStatus: " + wolfs);
         WolfUser wolfUser = new WolfUser(wolfs.name(), wolfs.getUserId());
         HttpGet httpGet = new HttpGet("http://www.tgwerewolf.com/Stats/PlayerStats?pid=" + wolfs.getUserId());
         CloseableHttpResponse response1 = httpclient.execute(httpGet);
         try {
-            System.out.println(response1.getStatusLine());
+            //System.out.println(response1.getStatusLine());
             BufferedReader br;
             br = new BufferedReader(new InputStreamReader(response1.getEntity().getContent()));
             String line;
@@ -95,7 +95,12 @@ public class WolfStatWebService {
 
         String mostKilledId = getWolfUserId(block.substring(0, middle));
         wolfUser.setMostKilled(mostKilledId);
-        wolfUser.setMostKilledName(Wolfs.getById(mostKilledId));
+        if (Wolfs.getById(mostKilledId) != null) {
+            wolfUser.setMostKilledName(Wolfs.getById(mostKilledId));
+        } else {
+            wolfUser.setMostKilledName(findUserById(mostKilledId));
+        }
+
         wolfUser.setMostKilledTimes(block.substring(middle + tab2Pattern.length(), block.length()));
 
         i = data.indexOf(MOST_KILLED_BY);
@@ -105,11 +110,46 @@ public class WolfStatWebService {
 
         String mostKilledById = getWolfUserId(block.substring(0, middle));
         wolfUser.setMostKilledBy(mostKilledById);
-        wolfUser.setMostKilledByName(Wolfs.getById(mostKilledById));
+        if (Wolfs.getById(mostKilledById) != null) {
+            wolfUser.setMostKilledByName(Wolfs.getById(mostKilledById));
+        } else {
+            wolfUser.setMostKilledByName(findUserById(mostKilledById));
+        }
         wolfUser.setMostKilledByTimes(block.substring(middle + tab2Pattern.length(), block.length()));
 
         //System.out.println(wolfUser);
 
+    }
+
+    private String findUserById(String mostKilledId) {
+        String name = "Unknown id: " + mostKilledId;
+        try {
+
+            HttpGet httpGet = new HttpGet("http://www.tgwerewolf.com/Stats/Player/" + mostKilledId);
+            CloseableHttpResponse response1 = httpclient.execute(httpGet);
+            try {
+                System.out.println(response1.getStatusLine());
+                BufferedReader br;
+                br = new BufferedReader(new InputStreamReader(response1.getEntity().getContent()));
+                String line;
+                while ((line = br.readLine()) != null) {
+                    //name = findName(line);
+                    System.out.println(line);
+                    break;
+                }
+            } finally {
+                response1.close();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return name;
+    }
+
+    private String findName(String line) {
+        System.out.println(line);
+        System.out.println(line);
+        return "";
     }
 
     private String getWolfUserId(String substring) {
