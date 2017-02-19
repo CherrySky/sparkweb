@@ -9,6 +9,8 @@ import sdomain.services.telegram.TelegramLongPollingBot;
 
 public class TelegramBotController {
 
+    private static final String COMMAND_URL = "/url";
+
     public TelegramBotController() {
         init();
     }
@@ -32,19 +34,34 @@ public class TelegramBotController {
 
         @Override
         public void onUpdateReceived(Update update) {
-        // We check if the update has a message and the message has text
             System.out.println("Update: " + update);
-            if (update.hasMessage() && update.getMessage().hasText()) {
-                SendMessage message = new SendMessage() // Create a SendMessage object with mandatory fields
-                        .setChatId(update.getMessage().getChatId())
-                        .setText(URL);
-                try {
-                    System.out.println("received: " + update.getMessage().getText());
-                    sendMessage(message); // Call method to send the message
-                } catch (TelegramApiException e) {
-                    e.printStackTrace();
-                }
+            try {
+                executeCommands(update);
+            } catch (TelegramApiException e) {
+                e.printStackTrace();
             }
+        }
+
+        private void executeCommands(Update update) throws TelegramApiException {
+            String text = update.getMessage().getText();
+            SendMessage message = null;
+            if (text.startsWith("/")) {
+                if (text.equals(COMMAND_URL)) {
+                    //if (update.hasMessage() && update.getMessage().hasText()) {
+                    message = new SendMessage()
+                            .setChatId(update.getMessage().getChatId())
+                            .setText(URL);
+                    sendMessage(message);
+                    //}
+                }
+
+            } else {
+                message = new SendMessage()
+                        .setChatId(update.getMessage().getChatId())
+                        .setText("Chat is not allowed. Please use command start with /");
+                sendMessage(message);
+            }
+            System.out.println("Reply message: " + message);
         }
 
         @Override
