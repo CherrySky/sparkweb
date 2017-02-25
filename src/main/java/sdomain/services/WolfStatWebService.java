@@ -1,11 +1,13 @@
 package sdomain.services;
 
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.eclipse.jetty.websocket.api.StatusCode;
 import sdomain.domain.WolfUser;
 import sdomain.domain.Wolfs;
 
@@ -39,17 +41,17 @@ public class WolfStatWebService {
         HttpGet httpGet = new HttpGet("http://www.tgwerewolf.com/Stats/PlayerStats?pid=" + wolfs.getUserId());
         CloseableHttpResponse response1 = httpclient.execute(httpGet);
         try {
-            //System.out.println(response1.getStatusLine());
-            BufferedReader br;
-            br = new BufferedReader(new InputStreamReader(response1.getEntity().getContent()));
-            String line;
-            while ((line = br.readLine()) != null) {
-                enrichedWolfUser(wolfUser, line);
+            if (response1.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+                BufferedReader br;
+                br = new BufferedReader(new InputStreamReader(response1.getEntity().getContent()));
+                String line;
+                while ((line = br.readLine()) != null) {
+                    enrichedWolfUser(wolfUser, line);
+                }
             }
-            } finally {
+        } finally {
             response1.close();
         }
-
         return wolfUser;
     }
 
@@ -57,40 +59,46 @@ public class WolfStatWebService {
 
         int i = data.indexOf(GAMES_PLAYED_TOTAL);
         int endIndex = data.indexOf(end);
-        String number = data.substring(i + GAMES_PLAYED_TOTAL.length() + tab1Pattern.length(), endIndex);;
+        String number = data.substring(i + GAMES_PLAYED_TOTAL.length() + tab1Pattern.length(), endIndex);
+        ;
         wolfUser.setGamesPlayedTotal(number);
 
         i = data.indexOf(GAME_WON);
         endIndex = data.indexOf(end, i);
-        String block = data.substring(i + GAME_WON.length() + tab1Pattern.length(), endIndex);;
+        String block = data.substring(i + GAME_WON.length() + tab1Pattern.length(), endIndex);
+        ;
         int middle = block.indexOf(tab2Pattern);
         wolfUser.setWon(block.substring(0, middle));
         wolfUser.setWonPercentage(block.substring(middle + tab2Pattern.length(), block.length()));
 
         i = data.indexOf(GAME_LOST);
         endIndex = data.indexOf(end, i);
-        block = data.substring(i + GAME_LOST.length() + tab1Pattern.length(), endIndex);;
+        block = data.substring(i + GAME_LOST.length() + tab1Pattern.length(), endIndex);
+        ;
         middle = block.indexOf(tab2Pattern);
         wolfUser.setLost(block.substring(0, middle));
         wolfUser.setLostPercentage(block.substring(middle + tab2Pattern.length(), block.length()));
 
         i = data.indexOf(GAMES_SURVIVED);
         endIndex = data.indexOf(end, i);
-        block = data.substring(i + GAMES_SURVIVED.length() + tab1Pattern.length(), endIndex);;
+        block = data.substring(i + GAMES_SURVIVED.length() + tab1Pattern.length(), endIndex);
+        ;
         middle = block.indexOf(tab2Pattern);
         wolfUser.setSurvived(block.substring(0, middle));
         wolfUser.setSurvivedPercentage(block.substring(middle + tab2Pattern.length(), block.length()));
 
         i = data.indexOf(MOST_COMMON_ROLE);
         endIndex = data.indexOf(end, i);
-        block = data.substring(i + MOST_COMMON_ROLE.length() + tab1Pattern.length(), endIndex);;
+        block = data.substring(i + MOST_COMMON_ROLE.length() + tab1Pattern.length(), endIndex);
+        ;
         middle = block.indexOf(tab2Pattern);
         wolfUser.setMostCommonRole(block.substring(0, middle));
         wolfUser.setMostCommonRoleTimes(block.substring(middle + tab2Pattern.length(), block.length()));
 
         i = data.indexOf(MOST_KILLED);
         endIndex = data.indexOf(end, i);
-        block = data.substring(i + MOST_KILLED.length() + tab1Pattern.length(), endIndex);;
+        block = data.substring(i + MOST_KILLED.length() + tab1Pattern.length(), endIndex);
+        ;
         middle = block.indexOf(tab2Pattern);
 
         String mostKilledId = getWolfUserId(block.substring(0, middle));
@@ -105,7 +113,8 @@ public class WolfStatWebService {
 
         i = data.indexOf(MOST_KILLED_BY);
         endIndex = data.indexOf(end, i);
-        block = data.substring(i + MOST_KILLED_BY.length() + tab1Pattern.length(), endIndex);;
+        block = data.substring(i + MOST_KILLED_BY.length() + tab1Pattern.length(), endIndex);
+        ;
         middle = block.indexOf(tab2Pattern);
 
         String mostKilledById = getWolfUserId(block.substring(0, middle));
@@ -165,7 +174,7 @@ public class WolfStatWebService {
 
     private void start() {
         try {
-            getWolfUserStatus(Wolfs.DON);
+            getWolfUserStatus(Wolfs.Mandy);
         } catch (IOException e) {
             e.printStackTrace();
         }

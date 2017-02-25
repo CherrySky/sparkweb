@@ -30,7 +30,7 @@ public class TelegramBotController {
 
     class DonKwanBot extends TelegramLongPollingBot {
 
-        private static final String URL = "http://119.247.151.97:4567/wolf";
+        private static final String URL = "http://52.40.246.114:4567/wolf";
 
         @Override
         public void onUpdateReceived(Update update) {
@@ -45,8 +45,8 @@ public class TelegramBotController {
         private void executeCommands(Update update) throws TelegramApiException {
             String text = update.getMessage().getText();
             SendMessage message = null;
-            if (text.startsWith("/")) {
-                if (text.equals(COMMAND_URL)) {
+            if (text != null && text.startsWith("/")) {
+                if (text.startsWith(COMMAND_URL)) {
                     //if (update.hasMessage() && update.getMessage().hasText()) {
                     message = new SendMessage()
                             .setChatId(update.getMessage().getChatId())
@@ -56,10 +56,10 @@ public class TelegramBotController {
                 }
 
             } else {
-                message = new SendMessage()
-                        .setChatId(update.getMessage().getChatId())
-                        .setText("Chat is not allowed. Please use command start with /");
-                sendMessage(message);
+//                message = new SendMessage()
+//                        .setChatId(update.getMessage().getChatId())
+//                        .setText("Chat is not allowed. Please use command start with /");
+//                sendMessage(message);
             }
             System.out.println("Reply message: " + message);
         }

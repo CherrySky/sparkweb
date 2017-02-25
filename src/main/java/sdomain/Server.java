@@ -18,7 +18,7 @@ public class Server {
         //new ReceiptController(dataSource);
 
         new WolfController();
-        new TelegramBotController();
+        //new TelegramBotController();
 
         System.out.println("server started...");
 

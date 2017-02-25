@@ -39,7 +39,9 @@ public class WolfController {
                     executorService.execute(() -> {
                         try {
                             WolfUser wolfUser = wolfStatWebService.getWolfUserStatus(wolfs);
-                            wolfUsers.add(wolfUser);
+                            if (wolfUser.getGamesPlayedTotal() != null) {
+                                wolfUsers.add(wolfUser);
+                            }
                             latch.countDown();
                         } catch (IOException e) {
                             e.printStackTrace();
