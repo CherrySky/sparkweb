@@ -13,7 +13,8 @@ public enum Wolfs {
     Mia("276080654", true),
     Mary("348843344", true),
     Joey("255650454", true),
-    Mandy("371226639", true)
+    Mandy("371226639", true),
+    Crean("362579165", true)
     ;
 
     public boolean isEnable() {
