@@ -30,7 +30,7 @@ public class TelegramBotController {
 
     class DonKwanBot extends TelegramLongPollingBot {
 
-        private static final String URL = "http://52.40.246.114:4567/wolf";
+        private static final String URL = "http://18.218.10.89:4567/wolf";
 
         @Override
         public void onUpdateReceived(Update update) {

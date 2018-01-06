@@ -1,5 +1,6 @@
 package sdomain;
 
+import sdomain.controller.TelegramBotController;
 import sdomain.controller.WebSocketController;
 import sdomain.controller.WolfController;
 
@@ -21,13 +22,17 @@ public class Server {
         //Spark.externalStaticFileLocation("/sdomain/src/main/resources/public");
 
         //new ReceiptController(dataSource);
-        //new TelegramBotController();
+        new TelegramBotController();
 
-        new WebSocketController(true);
-        new WolfController(false);
+        createSparkControllers();
 
         init();
         System.out.println("server started...");
+    }
+
+    private void createSparkControllers() {
+        new WebSocketController(true);
+        new WolfController(false);
     }
 
 }
