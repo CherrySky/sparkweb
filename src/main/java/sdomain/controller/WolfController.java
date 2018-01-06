@@ -4,7 +4,6 @@ import sdomain.domain.WolfUser;
 import sdomain.domain.Wolfs;
 import sdomain.services.WolfStatWebService;
 import spark.ModelAndView;
-import spark.TemplateViewRoute;
 import spark.template.freemarker.FreeMarkerEngine;
 
 import java.io.IOException;
@@ -19,18 +18,18 @@ import java.util.concurrent.Executors;
 
 import static spark.Spark.get;
 
-public class WolfController {
+public class WolfController extends SparkController {
 
     private ExecutorService executorService = Executors.newFixedThreadPool(8);
     private WolfStatWebService wolfStatWebService = new WolfStatWebService();
 
-
-    public WolfController() {
-        init();
+    public WolfController(boolean isDefault) {
+        super(isDefault);
     }
 
-    private void init() {
-        TemplateViewRoute mainRoute = (req, res) -> {
+    @Override
+    public void createControllerRoute() {
+        mainRoute = (req, res) -> {
             List<WolfUser> wolfUsers = new CopyOnWriteArrayList<>();
             CountDownLatch latch = new CountDownLatch(Wolfs.values().length);
 
@@ -60,14 +59,13 @@ public class WolfController {
             Map<String, Object> model = new HashMap<>();
             Collections.sort(wolfUsers);
             model.put("data", wolfUsers);
-
             return new ModelAndView(model, "wolf/index.ftl");
+
         };
+    }
 
-        get("/", mainRoute, new FreeMarkerEngine());
+    public void start() {
         get("/wolf", mainRoute, new FreeMarkerEngine());
-
-
     }
 
 }

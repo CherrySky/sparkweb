@@ -5,7 +5,7 @@
     <html xmlns="http://www.w3.org/1999/xhtml">
         <head>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></meta>
-            <link href="/css/bootstrap.min.css" rel="stylesheet">
+            <link href="/css/bootstrap.css" rel="stylesheet">
             <link href="/css/starter-template.css" rel="stylesheet">
             <title>${title}</title>
         </head>
@@ -23,10 +23,10 @@
                     </div>
                     <div id="navbar" class="collapse navbar-collapse">
                       <ul class="nav navbar-nav">
-                        <li><a href="/">Wolfs</a></li>
+                        <li><a href="/wolf">Wolfs</a></li>
                         <li><a href="/nihongo">日語</a></li>
-                        <!--<li class="active"><a href="/">Receipt</a></li>
-                        <li><a href="#about">About</a></li>
+                        <li><a href="/chat">Chat</a>Chat</li>
+                        <!--<li class="active"><a href="#about">About</a></li>
                         <li><a href="#contact">Contact</a></li>-->
                       </ul>
                       <!--<form class="navbar-form navbar-right" action="searchReceipt" method="post">
