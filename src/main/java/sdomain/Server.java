@@ -1,23 +1,33 @@
 package sdomain;
 
-import sdomain.controller.ReceiptController;
-import sdomain.dao.DatabaseConfig;
-
-import javax.sql.DataSource;
+import sdomain.controller.WebSocketController;
+import sdomain.controller.WolfController;
 
 import static spark.Spark.*;
 
 public class Server {
 
     public static void main(String[] args) {
+        new Server().start();
+    }
 
-        staticFileLocation("/public");
+    private void start() {
 
-        DataSource dataSource = DatabaseConfig.init("sql/create-data.sql");
+        staticFiles.location("/public");
+        staticFiles.expireTime(60000);
+
+        //DataSource dataSource = DatabaseConfig.init("sql/create-data.sql");
 
         //Spark.externalStaticFileLocation("/sdomain/src/main/resources/public");
 
-        new ReceiptController(dataSource);
+        //new ReceiptController(dataSource);
+        //new TelegramBotController();
+
+        new WebSocketController(true);
+        new WolfController(false);
+
+        init();
+        System.out.println("server started...");
     }
 
 }
